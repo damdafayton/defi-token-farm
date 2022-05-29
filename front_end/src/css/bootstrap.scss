@@ -1,0 +1,14 @@
+@import "custom";
+@import "~bootstrap/scss/bootstrap";
+
+:root{
+  --bs-body-bg:hsl(227, 61%, 26%);
+}
+
+body{
+  background: linear-gradient(135deg,
+   hsl(227, 61%, 13%),
+   hsl(227, 61%, 26%),
+   hsl(227, 61%, 39%)) !important;
+  min-height: 100vh;
+}
