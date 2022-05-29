@@ -11,7 +11,7 @@
 ## Built With
 
 - Solidity, Python, Brownie, Ganache
-- Bootstrap, SCSS, React
+- Bootstrap, SCSS, React, TypeScript
 - pytest, @usedapp, @mui/material
 
 
