@@ -34,7 +34,7 @@ In the project directory, you can:
 - `cd` into the directory where you want to clone your project,
 - Enter the commands below
 ```
-$ git clone git@github.com:damdafayton/solidity-token-farm.git
+$ git clone git@github.com:damdafayton/defi-token-farm.git
 $ cd front_end
 $ npm install
 $ npm start
