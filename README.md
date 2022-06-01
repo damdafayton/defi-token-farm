@@ -2,14 +2,14 @@
 
 ![](./screen_shot.png)
 
-> This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Under construction
 
 > Yield farming dapp
 
 - [ ] Get free BITUSD tokens from the faucet
 - [x] Stake BITUSD, WETH and FAU
 - [ ] Unstake BITUSD, WETH and FAU
-- [ ] Production ready
+
 
 ## Built With
 
