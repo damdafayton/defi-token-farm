@@ -2,7 +2,7 @@
 
 ![](./screen_shot.png)
 
-> This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Front-end of this project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 > Yield farming dapp
 
@@ -34,7 +34,7 @@ In the project directory, you can:
 - `cd` into the directory where you want to clone your project,
 - Enter the commands below
 ```
-$ git clone git@github.com:damdafayton/solidity-token-farm.git
+$ git clone git@github.com:damdafayton/defi-token-farm.git
 $ cd frontend
 $ npm install
 $ npm start

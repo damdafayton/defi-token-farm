@@ -3,15 +3,15 @@ import { useEthers, useTokenBalance } from '@usedapp/core'
 import BalanceMsg from './BalanceMsg'
 import { formatTokenBalance } from '../../helpers'
 import { useState, useEffect } from 'react'
-import StakeForm from './StakeForm'
 
 
 export interface WalletBalanceProps {
-  token: Token
+  token: Token,
+  balance: string | number | false,
+  setBalance: (params: any) => any
 }
 
-export default function WalletBalance({ token }: WalletBalanceProps) {
-  const [balance, setBalance] = useState<string | number | false>('loading')
+export default function WalletBalance({ token, balance, setBalance }: WalletBalanceProps) {
   const { image, address: contract_address, name } = token
   const { account: user_address } = useEthers()
 
@@ -33,7 +33,6 @@ export default function WalletBalance({ token }: WalletBalanceProps) {
       tokenImgSrc={image}
       amount={balance}
     />
-    {balance ? <StakeForm token={token} /> : ''}
   </>
   )
 }

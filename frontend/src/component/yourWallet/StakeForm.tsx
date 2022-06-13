@@ -1,22 +1,23 @@
 import { useNotifications } from '@usedapp/core'
 import { Token } from '../Main'
-import { Button, CircularProgress, Snackbar } from "@material-ui/core"
-import { Alert } from "@material-ui/lab"
+import { Button, CircularProgress } from "@material-ui/core"
 import React, { useEffect, useState } from 'react'
 import { useStakeTokens } from '../../hooks'
 import { utils } from 'ethers'
 import { TextField } from '@mui/material'
+import { AlertType } from '../../App'
 
 export interface StakeFormProps {
-  token: Token
+  token: Token,
+  alertMessage: null | AlertType,
+  setAlertMessage: (params: any) => any
 }
 
-export default function StakeForm({ token }: StakeFormProps) {
+export default function StakeForm({ token, alertMessage, setAlertMessage }: StakeFormProps) {
   const { address: tokenAddress, } = token
   const { notifications } = useNotifications()
 
   const [amount, setAmount] = useState<number | string | Array<number | string>>('')
-  const [alertMessage, setAlertMessage] = useState<string | null>("")
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newAmount = Number(event.target.value) || ""
@@ -38,18 +39,16 @@ export default function StakeForm({ token }: StakeFormProps) {
         notification.transactionName === "Approve ERC20 Transfer"
     }).length > 0) {
       // console.log("Approved")
-      setAlertMessage("ERC-20 token transfer approved! Now approve the 2nd transaction.")
+      setAlertMessage({ status: "success", msg: "ERC-20 token transfer approved! Now approve the 2nd transaction." })
     }
     if (notifications.filter(notification => {
       return notification.type === "transactionSucceed" &&
         notification.transactionName === "Stake Tokens"
     }).length > 0) {
-      setAlertMessage("Tokens staked.")
+      setAlertMessage({ status: "success", msg: "Tokens staked." })
       setAmount('')
     }
   }, [notifications, alertMessage])
-
-  const handleSnackbarClose = () => setAlertMessage(null)
 
   return (<>
     <div className="d-flex justify-content-center flex-column align-items-center">
@@ -69,14 +68,5 @@ export default function StakeForm({ token }: StakeFormProps) {
         {isMining ? <CircularProgress size={26} color='inherit' /> : "Stake"}
       </Button>
     </div>
-    <Snackbar
-      open={Boolean(alertMessage)}
-      autoHideDuration={5000}
-      onClose={handleSnackbarClose}
-    >
-      <Alert onClose={handleSnackbarClose}>
-        {alertMessage}
-      </Alert>
-    </Snackbar>
   </>)
 }

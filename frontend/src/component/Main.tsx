@@ -1,10 +1,12 @@
 /* eslint-diable spaced-comment */
 /// <reference types = "react-scripts" />
-
+import { useEffect, useState } from "react"
 import YourWallet from "./yourWallet/YourWallet"
-import { imageMapping, getContractAddress } from "../helpers"
+import { imageMapping, getContractAddress, networkMap } from "../helpers"
 import { useEthers } from "@usedapp/core"
 import { makeStyles } from "@material-ui/core"
+import { AlertType } from '../App'
+import { Alert } from "@material-ui/lab"
 
 export type Token = {
   image: string,
@@ -21,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export const Main = () => {
+export const Main = ({ alertMessage, setAlertMessage }:
+  { alertMessage: null | AlertType, setAlertMessage: (params: any) => any }) => {
   const { chainId } = useEthers()
   const wethTokenAddress = getContractAddress({ external_contract: "weth_token", chainId })
   const fauTokenAddress = getContractAddress({ external_contract: "fau_token", chainId })
@@ -39,10 +42,32 @@ export const Main = () => {
     }
   })
   console.log(supportedTokens)
+  console.log(chainId)
+
+
+  const [pageAlert, setPageAlert] = useState<AlertType | null>(null)
+  useEffect(() => {
+    if (!chainId || !Object.keys(networkMap).includes(chainId.toString())) {
+      setPageAlert({ status: "error", msg: "Change your network to Rinkeby" })
+    }
+  }, [chainId])
+
   return (
     <>
       <h2 className={classes.title}>TOKEN FARM</h2>
-      <YourWallet supportedTokens={supportedTokens} />
+      {pageAlert &&
+        <Alert
+          className='my-2'
+          severity={pageAlert?.status}
+          onClose={() => setPageAlert(null)}>
+          {pageAlert?.msg}
+        </Alert>
+      }
+      <YourWallet
+        supportedTokens={supportedTokens}
+        alertMessage={alertMessage}
+        setAlertMessage={setAlertMessage}
+      />
     </>
   )
 }

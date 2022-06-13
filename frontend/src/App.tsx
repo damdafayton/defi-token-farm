@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import './App.css';
 import { DAppProvider, Kovan, Rinkeby, Mainnet, Config } from "@usedapp/core"
 import { Headers } from './component/Headers'
 import './bootstrap'
-import { Container } from '@material-ui/core'
+import { Container, Snackbar } from '@material-ui/core'
 import { Main } from './component/Main'
 import { getDefaultProvider } from 'ethers'
+import { Alert } from "@material-ui/lab"
 
 
 const config: Config = {
@@ -25,12 +27,35 @@ const config: Config = {
   }
 }
 
+export type AlertType = {
+  status: 'success' | 'info' | 'warning' | 'error',
+  msg: string
+}
+
 function App() {
+  const [_alertMessage, _setAlertMessage] = useState<AlertType | null>(null)
+
+  const handleSnackbarClose = () => _setAlertMessage(null)
+
   return (
     <DAppProvider config={config}>
       <Headers></Headers>
       <Container maxWidth="md">
-        <Main />
+        <Main
+          alertMessage={_alertMessage}
+          setAlertMessage={_setAlertMessage}
+        />
+        <Snackbar
+          open={Boolean(_alertMessage)}
+          autoHideDuration={5000}
+          onClose={handleSnackbarClose}
+        >
+          <Alert
+            severity={_alertMessage?.status}
+            onClose={handleSnackbarClose}>
+            {_alertMessage?.msg}
+          </Alert>
+        </Snackbar>
       </Container>
     </DAppProvider>
   );

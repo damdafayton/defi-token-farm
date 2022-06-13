@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Headers = () => {
-  const { account, activateBrowserWallet, deactivate } = useEthers()
+  const { account, activateBrowserWallet, deactivate, chainId } = useEthers()
 
   const isConnected = account != undefined
 

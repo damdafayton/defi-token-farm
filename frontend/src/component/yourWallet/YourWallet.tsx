@@ -5,9 +5,13 @@ import React, { useState } from 'react'
 import WalletBalance from './WalletBalance'
 import StakedBalance from './StakedBalance'
 import { useEthers } from "@usedapp/core"
+import StakeForm from './StakeForm'
+import { AlertType } from '../../App'
 
 interface YourWalletProps {
-  supportedTokens: Array<Token>
+  supportedTokens: Array<Token>,
+  alertMessage: null | AlertType,
+  setAlertMessage: (params: any) => any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -26,9 +30,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function YourWallet({ supportedTokens }: YourWalletProps) {
+export default function YourWallet({ supportedTokens, alertMessage, setAlertMessage }: YourWalletProps) {
   console.log("YourWallet loading..")
   const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(0)
+  const [balance, setBalance] = useState<string | number | false>('loading')
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
     setSelectedTokenIndex(parseInt(newValue))
@@ -56,7 +61,17 @@ export default function YourWallet({ supportedTokens }: YourWalletProps) {
                 {account == undefined
                   ? <div className="text-center">Connect your wallet to start using the dApp</div>
                   : <div className={classes.tabContent} >
-                    <WalletBalance token={supportedTokens[selectedTokenIndex]} />
+                    <WalletBalance
+                      token={supportedTokens[selectedTokenIndex]}
+                      balance={balance}
+                      setBalance={setBalance}
+                    />
+                    {balance
+                      ? <StakeForm
+                        token={token}
+                        alertMessage={alertMessage}
+                        setAlertMessage={setAlertMessage}
+                      /> : ''}
                     {/* <StakedBalance token={supportedTokens[selectedTokenIndex]} /> */}
                   </div>
                 }
