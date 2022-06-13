@@ -25,14 +25,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const Main = ({ alertMessage, setAlertMessage }:
   { alertMessage: null | AlertType, setAlertMessage: (params: any) => any }) => {
-  const { chainId } = useEthers()
+  const { account, chainId } = useEthers()
   const wethTokenAddress = getContractAddress({ external_contract: "weth_token", chainId })
   const fauTokenAddress = getContractAddress({ external_contract: "fau_token", chainId })
   const bitUsdTokenAddress = getContractAddress({ own_contract: 'BitUsdToken', chainId })
   const tokenAddressDict = { bitUsdTokenAddress, wethTokenAddress, fauTokenAddress }
 
   const classes = useStyles()
-
   const supportedTokens: Array<Token> = Object.keys(tokenAddressDict).map(address => {
     let name = address.slice(0, address.indexOf('Token')).toLowerCase()
     return {
@@ -47,12 +46,15 @@ export const Main = ({ alertMessage, setAlertMessage }:
 
   const [pageAlert, setPageAlert] = useState<AlertType | null>(null)
   useEffect(() => {
-    if (!chainId || !Object.keys(networkMap).includes(chainId.toString())) {
+    if (!account) {
+      setPageAlert({ status: "error", msg: "Connect your wallet" })
+    }
+    else if (!chainId || !Object.keys(networkMap).includes(chainId.toString())) {
       setPageAlert({ status: "error", msg: "Change your network to Rinkeby or Kovan" })
     } else {
       setPageAlert(null)
     }
-  }, [chainId])
+  }, [chainId, account])
 
   return (
     <>

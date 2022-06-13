@@ -1,5 +1,5 @@
 import { Token } from '../Main'
-import { makeStyles, Box, Tab } from '@material-ui/core'
+import { makeStyles, Box, Tab, CircularProgress } from '@material-ui/core'
 import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import React, { useState } from 'react'
 import WalletBalance from './WalletBalance'
@@ -58,9 +58,8 @@ export default function YourWallet({ supportedTokens, alertMessage, setAlertMess
           {supportedTokens.map((token, index) => {
             return (
               <TabPanel value={index.toString()} key={index} className="w-100">
-                {account == undefined
-                  ? <div className="text-center">Connect your wallet to start using the dApp</div>
-                  : <div className={classes.tabContent} >
+                {account ?
+                  <div className={classes.tabContent} >
                     <WalletBalance
                       token={supportedTokens[selectedTokenIndex]}
                       balance={balance}
@@ -74,6 +73,7 @@ export default function YourWallet({ supportedTokens, alertMessage, setAlertMess
                       /> : ''}
                     {/* <StakedBalance token={supportedTokens[selectedTokenIndex]} /> */}
                   </div>
+                  : <div className='text-center'><CircularProgress size={15} /></div>
                 }
               </TabPanel>
             )
