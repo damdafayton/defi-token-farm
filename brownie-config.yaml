@@ -27,6 +27,7 @@ networks:
     verify: True
   rinkeby:
     eth_usd_price_feed: '0x8A753747A1Fa494EC906cE90E9f37563A8AF630e'
+    dai_usd_price_feed: '0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF'
     weth_token: '0xc778417E063141139Fce010982780140Aa0cD5Ab'
     dai_token: '0xc3dbf84Abb494ce5199D5d4D815b10EC29529ff8'
     link_token: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709'

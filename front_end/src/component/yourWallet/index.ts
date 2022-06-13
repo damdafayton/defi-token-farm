@@ -1,1 +1,0 @@
-import YourWallet from "./YourWallet";

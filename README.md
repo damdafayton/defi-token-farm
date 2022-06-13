@@ -35,7 +35,7 @@ In the project directory, you can:
 - Enter the commands below
 ```
 $ git clone git@github.com:damdafayton/solidity-token-farm.git
-$ cd front_end
+$ cd frontend
 $ npm install
 $ npm start
 ````

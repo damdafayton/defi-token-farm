@@ -1,0 +1,20 @@
+{
+  "4": {
+    "BitUsdToken": [
+      "0x52a259796904D63E0e5B200F0736FE5afC274030",
+      "0xc9B7Ff1B7296C910e02b78726Bc7F90F51e9D494"
+    ],
+    "TokenFarm": [
+      "0x7b7378A0d7E0fA5026daAB8820bb97B448460a54",
+      "0x8D88455Ca6Ca26864513ade866A73DfBA9bc716a"
+    ]
+  },
+  "42": {
+    "BitUsdToken": [
+      "0x38770bFE1B6B80E982118735D8f9661A0Aa1B208"
+    ],
+    "TokenFarm": [
+      "0x36A2c88632d1AfD03AF8ECa4dFA22004dd36F24A"
+    ]
+  }
+}
