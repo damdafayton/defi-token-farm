@@ -19,11 +19,6 @@ export default function StakeForm({ token, alertMessage, setAlertMessage }: Stak
 
   const [amount, setAmount] = useState<number | string | Array<number | string>>('')
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newAmount = Number(event.target.value) || ""
-    setAmount(newAmount)
-  }
-
   const { approveAndStake, state: approveAndStakeErc20State } = useStakeTokens(tokenAddress)
 
   const handleStakeSubmit = () => {
@@ -32,6 +27,11 @@ export default function StakeForm({ token, alertMessage, setAlertMessage }: Stak
   }
 
   const isMining = approveAndStakeErc20State.status === "Mining"
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newAmount = Number(event.target.value) || ""
+    setAmount(newAmount)
+  }
 
   useEffect(() => {
     if (notifications.filter(notification => {
@@ -49,6 +49,7 @@ export default function StakeForm({ token, alertMessage, setAlertMessage }: Stak
       setAmount('')
     }
   }, [notifications, alertMessage])
+
 
   return (<>
     <div className="d-flex justify-content-center flex-column align-items-center">

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: theme.palette.common.white,
     textAlign: "center",
-    padding: theme.spacing(4)
+    paddingBottom: theme.spacing(4)
   }
 }))
 
@@ -48,7 +48,9 @@ export const Main = ({ alertMessage, setAlertMessage }:
   const [pageAlert, setPageAlert] = useState<AlertType | null>(null)
   useEffect(() => {
     if (!chainId || !Object.keys(networkMap).includes(chainId.toString())) {
-      setPageAlert({ status: "error", msg: "Change your network to Rinkeby" })
+      setPageAlert({ status: "error", msg: "Change your network to Rinkeby or Kovan" })
+    } else {
+      setPageAlert(null)
     }
   }, [chainId])
 
