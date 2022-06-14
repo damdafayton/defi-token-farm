@@ -2,19 +2,21 @@
 
 ![](./screen_shot.png)
 
-> Front-end of this project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Under construction
 
 > Yield farming dapp
 
-- Get free BITUSD tokens from the faucet
-- Stake and unstake BITUSD, WETH and FAU
-- API's: Infura, Alchemy
+- [ ] Get free BITUSD tokens from the faucet
+- [x] Stake BITUSD, WETH and FAU
+- [x] Unstake BITUSD, WETH and FAU
+
 
 ## Built With
 
 - Solidity, Python, Brownie, Ganache
 - Bootstrap, SCSS, React, TypeScript
 - pytest, @usedapp, @mui/material
+- API: Infura, Alchemy
 
 
 <!-- ## Live Demo
