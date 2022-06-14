@@ -3,10 +3,12 @@ import { makeStyles, Box, Tab, CircularProgress } from '@material-ui/core'
 import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import React, { useState } from 'react'
 import WalletBalance from './WalletBalance'
-import StakedBalance from './StakedBalance'
-import { useEthers } from "@usedapp/core"
 import StakeForm from './StakeForm'
 import { AlertType } from '../../App'
+import { useEthers, useTokenBalance } from '@usedapp/core'
+import { bigNumberToReadable } from '../../helpers'
+import { useTokenFarm } from '../../hooks/useTokenFarm'
+
 
 interface YourWalletProps {
   supportedTokens: Array<Token>,
@@ -33,15 +35,26 @@ const useStyles = makeStyles((theme) => ({
 export default function YourWallet({ supportedTokens, alertMessage, setAlertMessage }: YourWalletProps) {
   console.log("YourWallet loading..")
   const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(0)
-  const [balance, setBalance] = useState<string | number | false>('loading')
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
     setSelectedTokenIndex(parseInt(newValue))
   }
 
-  const { account } = useEthers()
   const classes = useStyles()
-  // console.log(supportedTokens, supportedTokens[selectedTokenIndex])
+
+  const { account: user_address } = useEthers()
+  const { StakingBalance } = useTokenFarm()
+
+  const token_contract_address = supportedTokens[selectedTokenIndex].address
+
+  const tokenBalanceData = useTokenBalance(token_contract_address, user_address)
+  const readableTokenBalance = tokenBalanceData !== undefined
+    && bigNumberToReadable(tokenBalanceData)
+
+  const stakingBalanceData = StakingBalance(token_contract_address, user_address)
+  const readableStakingBalance = stakingBalanceData.value
+    && bigNumberToReadable(stakingBalanceData.value[0])
+
   return (
     <Box>
       <h1 className={`${classes.header} fs-4`}>Your Wallet</h1>
@@ -58,19 +71,30 @@ export default function YourWallet({ supportedTokens, alertMessage, setAlertMess
           {supportedTokens.map((token, index) => {
             return (
               <TabPanel value={index.toString()} key={index} className="w-100">
-                {account ?
+                {user_address ?
                   <div className={classes.tabContent} >
                     <WalletBalance
                       token={supportedTokens[selectedTokenIndex]}
-                      balance={balance}
-                      setBalance={setBalance}
+                      readableTokenBalance={readableTokenBalance}
+                      readableStakingBalance={readableStakingBalance}
                     />
-                    {balance
-                      ? <StakeForm
-                        token={token}
-                        alertMessage={alertMessage}
-                        setAlertMessage={setAlertMessage}
-                      /> : ''}
+                    <div className=''>
+                      {(readableTokenBalance && parseInt(readableTokenBalance))
+                        ? <StakeForm
+                          token={token}
+                          alertMessage={alertMessage}
+                          setAlertMessage={setAlertMessage}
+                          stake={true}
+                        /> : ''}
+                      {(readableStakingBalance && parseInt(readableStakingBalance)) ?
+                        <StakeForm
+                          token={token}
+                          alertMessage={alertMessage}
+                          setAlertMessage={setAlertMessage}
+                          stake={false}
+                        />
+                        : ""}
+                    </div>
                     {/* <StakedBalance token={supportedTokens[selectedTokenIndex]} /> */}
                   </div>
                   : <div className='text-center'><CircularProgress size={15} /></div>

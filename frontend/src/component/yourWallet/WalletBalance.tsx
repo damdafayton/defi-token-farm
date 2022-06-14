@@ -1,41 +1,88 @@
 import { Token } from '../Main'
-import { useEthers, useTokenBalance } from '@usedapp/core'
-import BalanceMsg from './BalanceMsg'
-import { bigNumberToReadable } from '../../helpers'
 import { useTokenFarm } from '../../hooks/useTokenFarm'
+import { makeStyles, CircularProgress } from "@material-ui/core"
+import { networkMap } from "../../helpers"
+import { useEthers } from "@usedapp/core"
 
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: "block",
+    gridTemplateColumns: "auto auto auto",
+    gap: theme.spacing(1),
+    textAlign: "center",
+    alignItems: "center",
+    margin: '2rem 0.5rem'
+  },
+  tokenImg: {
+    width: "32px",
+    marginBottom: "0.6rem"
+  },
+  amount: {
+    fontWeight: 700
+  }
+}))
 
+// interface BalanceMsgProps {
+//   tokenName: string,
+//   amount?: number | string | false,
+//   stakedAmount?: number | string | false,
+//   tokenImgSrc: string,
+// }
 
+const faucetLinks = (token: string) => {
+  const links = {
+    FAU: "https://erc20faucet.com",
+    BITUSD: window.location.origin + "/faucet",
+    WETH: "https://app.aave.com"
+  }
+  return links[token]
+}
 export interface WalletBalanceProps {
   token: Token,
-  balance: string | number | false,
-  setBalance: (params: any) => any
+  readableTokenBalance: string | number | false,
+  readableStakingBalance: string | number | false,
 }
 
-export default function WalletBalance({ token, balance, setBalance }: WalletBalanceProps) {
+export default function WalletBalance({ token, readableTokenBalance, readableStakingBalance }: WalletBalanceProps) {
   const { image, address: token_contract_address, name } = token
-  const { tokenFarmAddress, StakingBalance } = useTokenFarm()
-  const { account: user_address } = useEthers()
-
-  const tokenBalanceData = useTokenBalance(token_contract_address, user_address)
-  const readableTokenBalance = tokenBalanceData !== undefined && bigNumberToReadable(tokenBalanceData) || 'loading'
-
-  const stakingBalanceData = user_address && StakingBalance(token_contract_address, user_address)
-  const readableStakingBalance = stakingBalanceData &&
-    stakingBalanceData.value &&
-    bigNumberToReadable(stakingBalanceData.value[0]) || 'loading'
+  const { tokenFarmAddress } = useTokenFarm()
+  const { chainId } = useEthers()
+  const classes = useStyles()
 
   return (<>
     <div><a href={`https://rinkeby.etherscan.io/address/${tokenFarmAddress}`} target="_blank">Stake Farm Contract</a>
     </div>
     <div><a href={`https://rinkeby.etherscan.io/address/${token_contract_address}`} target="_blank">Token Contract</a>
     </div>
-    <BalanceMsg
-      tokenName={name}
-      tokenImgSrc={image}
-      amount={readableTokenBalance}
-      stakedAmount={readableStakingBalance}
-    />
+    <div className={classes.container}>
+      <img className={classes.tokenImg} src={token.image} alt="image logo" />
+      <div>
+        <div>
+          <span>{`Your un-staked ${token.name} balance:`}</span>&nbsp;
+          <span className={classes.amount}>{readableTokenBalance
+            ? readableTokenBalance
+            : <CircularProgress size={15} />
+          }
+          </span>
+        </div>
+        <div>
+          <span>{`Your staked ${token.name} balance:`}</span>&nbsp;
+          <span className={classes.amount}>{readableStakingBalance
+            ? readableStakingBalance
+            : <CircularProgress size={15} />
+          }
+          </span>
+        </div>
+      </div>
+    </div>
+    {
+      readableTokenBalance === "0" && <>
+        <span>{chainId &&
+          `You don\'t have any ${token.name} token on ${networkMap[chainId].toUpperCase()} network.`}
+        </span>
+        <p>Visit <a href={faucetLinks(token.name)}> {faucetLinks(token.name)}</a> to get some {token.name} token</p>
+      </>
+    }
   </>
   )
 }

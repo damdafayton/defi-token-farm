@@ -13,7 +13,7 @@ export const networkMap = {
   "dev": "development"
 }
 
-export const bigNumberToReadable = (tokenBalance: BigNumberish): number => parseFloat(formatUnits(tokenBalance, 18))
+export const bigNumberToReadable = (tokenBalance: BigNumberish): string => parseFloat(formatUnits(tokenBalance, 18)).toString()
 
 export function getContractAddress(
   { external_contract = null,

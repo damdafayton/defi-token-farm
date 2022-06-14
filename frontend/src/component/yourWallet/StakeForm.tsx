@@ -6,67 +6,95 @@ import { useStakeTokens } from '../../hooks'
 import { utils } from 'ethers'
 import { TextField } from '@mui/material'
 import { AlertType } from '../../App'
+import { useTokenFarm } from '../../hooks/useTokenFarm'
 
 export interface StakeFormProps {
+  stake: boolean,
   token: Token,
   alertMessage: null | AlertType,
   setAlertMessage: (params: any) => any
 }
 
-export default function StakeForm({ token, alertMessage, setAlertMessage }: StakeFormProps) {
+// <stake> prop changes the module behaves. it is implemented to enable fractional un-staking which
+// is not supported by Contract currently
+export default function StakeForm({ stake = false, token, alertMessage, setAlertMessage }: StakeFormProps) {
   const { address: tokenAddress, } = token
   const { notifications } = useNotifications()
 
-  const [amount, setAmount] = useState<number | string | Array<number | string>>('')
+  const [stakeAmount, setStakeAmount] = useState<number | string | Array<number | string>>('')
+  const [unStakeAmount, setUnStakeAmount] = useState<number | string | Array<number | string>>('')
+
 
   const { approveAndStake, state: approveAndStakeErc20State } = useStakeTokens(tokenAddress)
+  const { unStakeTokens, unStakeTokensState } = useTokenFarm()
 
   const handleStakeSubmit = () => {
-    const amountAsWei = utils.parseEther(amount.toString())
-    return approveAndStake(amountAsWei.toString())
+    const stakeAmountAsWei = utils.parseEther(stakeAmount.toString())
+    return approveAndStake(stakeAmountAsWei.toString())
   }
 
-  const isMining = approveAndStakeErc20State.status === "Mining"
+  const handleUnStakeSubmit = () => {
+    return unStakeTokens(tokenAddress)
+  }
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const isMiningStaking = approveAndStakeErc20State.status === "Mining"
+  const isMiningUnStaking = unStakeTokensState.status === "Mining"
+
+  const handleStakeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newAmount = Number(event.target.value) || ""
-    setAmount(newAmount)
+    setStakeAmount(newAmount)
+  }
+  const handleUnStakeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newAmount = Number(event.target.value) || ""
+    setUnStakeAmount(newAmount)
   }
 
   useEffect(() => {
+    // Stake notification filters
     if (notifications.filter(notification => {
-      return notification.type === "transactionSucceed" &&
-        notification.transactionName === "Approve ERC20 Transfer"
+      return notification.type === "transactionSucceed"
+        && notification.transactionName === "Approve ERC20 Transfer"
     }).length > 0) {
       // console.log("Approved")
       setAlertMessage({ status: "success", msg: "ERC-20 token transfer approved! Now approve the 2nd transaction." })
     }
     if (notifications.filter(notification => {
-      return notification.type === "transactionSucceed" &&
-        notification.transactionName === "Stake Tokens"
+      return notification.type === "transactionSucceed"
+        && notification.transactionName === "stakeTokens"
     }).length > 0) {
       setAlertMessage({ status: "success", msg: "Tokens staked." })
-      setAmount('')
+      setStakeAmount('')
+    }
+    // Unstake notification filters
+    if (notifications.filter(notification => {
+      return notification.type === "transactionSucceed"
+        && notification.transactionName === "unStakeTokens"
+    }).length > 0) {
+      // console.log("Approved")
+      setAlertMessage({ status: "success", msg: "Tokens un-staked successfully." })
     }
   }, [notifications, alertMessage])
 
 
   return (<>
     <div className="d-flex justify-content-center flex-column align-items-center">
-      <TextField id="standard-basic" label="Stake amount" variant="standard"
-        onChange={handleInputChange} value={amount}
-        sx={{
-          '& input': {
-            textAlign: "center"
-          }
-        }}
-      />
+      {stake &&
+        <TextField id="standard-basic" label={stake ? "Stake amount" : "Un-stake amount"} variant="standard"
+          onChange={stake ? handleStakeInputChange : handleUnStakeInputChange}
+          value={stake ? stakeAmount : unStakeAmount}
+          sx={{
+            '& input': {
+              textAlign: "center"
+            }
+          }}
+        />}
       <Button
-        onClick={handleStakeSubmit}
-        color="secondary" variant="contained" size="large" className="d-flex mt-3 min-w-120"
-        disabled={isMining}
+        onClick={stake ? handleStakeSubmit : handleUnStakeSubmit}
+        color={stake ? "secondary" : "primary"} variant="contained" size="large" className="d-flex mt-3 min-w-120"
+        disabled={stake ? isMiningStaking : isMiningUnStaking}
       >
-        {isMining ? <CircularProgress size={26} color='inherit' /> : "Stake"}
+        {stake && (isMiningStaking ? <CircularProgress size={26} color='inherit' /> : "Stake")}
+        {!stake && (isMiningUnStaking ? <CircularProgress size={26} color='inherit' /> : "Un-stake All")}
       </Button>
     </div>
   </>)

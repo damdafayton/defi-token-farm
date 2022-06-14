@@ -21,9 +21,17 @@ export const useTokenFarm = () => {
       transactionName: "stakeTokens"
     })
 
+  const { send: unStakeTokens, state: unStakeTokensState } = useContractFunction( // (token)
+    tokenFarmContract,
+    "unStakeTokens",
+    {
+      transactionName: "unStakeTokens"
+    })
+
   // const { send: unStakeTokens, state: unStakeTokensState } = //FarmContractFunctionHookMaker("unStakeTokens")  //  (token)
 
-  const StakingBalance = (token_address: string, user_address: string) => {
+  const StakingBalance = (token_address: string, user_address: string | undefined) => {
+
     const { value, error } = useCall({
       contract: tokenFarmContract,
       method: "stakingBalance",
@@ -33,5 +41,5 @@ export const useTokenFarm = () => {
   }
 
 
-  return ({ tokenFarmAddress, stakeTokens, stakeTokensState, StakingBalance })
+  return ({ tokenFarmAddress, stakeTokens, stakeTokensState, StakingBalance, unStakeTokens, unStakeTokensState })
 }
