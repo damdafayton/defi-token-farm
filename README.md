@@ -6,9 +6,9 @@
 
 > Yield farming dapp
 
-- [ ] Get free BITUSD tokens from the faucet
 - [x] Stake BITUSD, WETH and FAU
 - [x] Unstake BITUSD, WETH and FAU
+- [ ] Get free BITUSD tokens from the faucet
 
 
 ## Built With
