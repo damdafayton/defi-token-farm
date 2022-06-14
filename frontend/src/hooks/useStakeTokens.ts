@@ -1,9 +1,7 @@
 import { utils } from "ethers"
-import { useEthers, useContractFunction } from "@usedapp/core"
+import { useContractFunction } from "@usedapp/core"
 import { Contract } from '@ethersproject/contracts'
-import { getContractAddress } from '../helpers'
 import { useState, useEffect } from "react"
-import TokenFarm from '../chain-info/contracts/TokenFarm.json'
 import ERC20 from '../chain-info/contracts/MockDAI.json'
 import { useTokenFarm } from "./useTokenFarm"
 

@@ -8,7 +8,6 @@ export const Headers = () => {
 
   const isConnected = account != undefined
 
-  // const classes = useStyles()
   return (
     <div className={styles.container}>
       <div>

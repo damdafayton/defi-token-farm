@@ -39,7 +39,7 @@ function App() {
   return (
     <DAppProvider config={config}>
       <Headers></Headers>
-      <Container maxWidth="md">
+      <Container maxWidth="md" className="mb-3">
         <Main
           alertMessage={_alertMessage}
           setAlertMessage={_setAlertMessage}
