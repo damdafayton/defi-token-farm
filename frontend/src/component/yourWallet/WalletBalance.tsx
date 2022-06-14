@@ -25,12 +25,12 @@ export default function WalletBalance({ token, readableTokenBalance, readableSta
   const { chainId } = useEthers()
 
   return (<>
-    <div><a href={`https://rinkeby.etherscan.io/address/${tokenFarmAddress}`} target="_blank">Stake Farm Contract</a>
+    <div><a href={`https://rinkeby.etherscan.io/address/${tokenFarmAddress}`} target="_blank" rel="noreferrer">Stake Farm Contract</a>
     </div>
-    <div><a href={`https://rinkeby.etherscan.io/address/${token_contract_address}`} target="_blank">Token Contract</a>
+    <div><a href={`https://rinkeby.etherscan.io/address/${token_contract_address}`} target="_blank" rel="noreferrer">Token Contract</a>
     </div>
     <div className={styles.container}>
-      <img className={styles.tokenImg} src={token.image} alt="image logo" />
+      <img className={styles.tokenImg} src={token.image} alt="logo" />
       <div>
         <div>
           <span>{`Your un-staked ${token.name} balance:`}</span>&nbsp;

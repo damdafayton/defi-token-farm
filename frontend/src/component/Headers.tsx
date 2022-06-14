@@ -4,9 +4,9 @@ import styles from './Styles.module.css'
 
 
 export const Headers = () => {
-  const { account, activateBrowserWallet, deactivate, chainId } = useEthers()
+  const { account, activateBrowserWallet, deactivate } = useEthers()
 
-  const isConnected = account != undefined
+  const isConnected = account !== undefined
 
   return (
     <div className={styles.container}>

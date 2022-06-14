@@ -73,7 +73,7 @@ export default function StakeForm({ stake = false, token, alertMessage, setAlert
       // console.log("Approved")
       setAlertMessage({ status: "success", msg: "Tokens un-staked successfully." })
     }
-  }, [notifications, alertMessage])
+  }, [notifications, alertMessage, setAlertMessage])
 
 
   return (<>

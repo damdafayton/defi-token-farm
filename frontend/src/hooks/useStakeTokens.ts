@@ -41,7 +41,7 @@ export const useStakeTokens = (tokenAddress: string) => {
       // stake
       tokenFarmStakeTokensSend(amountToStake, tokenAddress)
     }
-  }, [erc20ApproveState, tokenAddress, amountToStake])
+  }, [erc20ApproveState, tokenAddress, amountToStake, tokenFarmStakeTokensSend])
 
 
   useEffect(() => {
