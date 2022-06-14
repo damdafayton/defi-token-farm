@@ -1,6 +1,6 @@
 import { useNotifications } from '@usedapp/core'
 import { Token } from '../Main'
-import { Button, CircularProgress } from "@material-ui/core"
+import { Button, CircularProgress } from "@mui/material"
 import React, { useEffect, useState } from 'react'
 import { useStakeTokens } from '../../hooks'
 import { utils } from 'ethers'

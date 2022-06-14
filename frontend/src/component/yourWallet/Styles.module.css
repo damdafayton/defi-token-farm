@@ -1,0 +1,31 @@
+.tabContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.box {
+  background-color: white;
+  border-radius: 25px;
+}
+.header {
+  color: white;
+}
+
+.container {
+  display: block;
+  grid-template-columns: auto auto auto;
+  gap: 0.5rem;
+  text-align: center;
+  align-items: center;
+  margin: 2rem 0.5rem;
+}
+
+.tokenImg {
+  width: 32px;
+  margin-bottom: 0.6rem;
+}
+
+.amount {
+  font-weight: 700;
+}

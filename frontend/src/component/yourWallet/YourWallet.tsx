@@ -1,5 +1,5 @@
 import { Token } from '../Main'
-import { makeStyles, Box, Tab, CircularProgress } from '@material-ui/core'
+import { Box, Tab, CircularProgress } from '@material-ui/core'
 import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import React, { useState } from 'react'
 import WalletBalance from './WalletBalance'
@@ -8,6 +8,7 @@ import { AlertType } from '../../App'
 import { useEthers, useTokenBalance } from '@usedapp/core'
 import { bigNumberToReadable } from '../../helpers'
 import { useTokenFarm } from '../../hooks/useTokenFarm'
+import styles from './Styles.module.css'
 
 
 interface YourWalletProps {
@@ -16,22 +17,6 @@ interface YourWalletProps {
   setAlertMessage: (params: any) => any
 }
 
-const useStyles = makeStyles((theme) => ({
-  tabContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    // gap: theme.spacing(4),
-  },
-  box: {
-    backgroundColor: "white",
-    borderRadius: "25px"
-  },
-  header: {
-    color: "white"
-  }
-}))
-
 export default function YourWallet({ supportedTokens, alertMessage, setAlertMessage }: YourWalletProps) {
   console.log("YourWallet loading..")
   const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(0)
@@ -39,8 +24,6 @@ export default function YourWallet({ supportedTokens, alertMessage, setAlertMess
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
     setSelectedTokenIndex(parseInt(newValue))
   }
-
-  const classes = useStyles()
 
   const { account: user_address } = useEthers()
   const { StakingBalance } = useTokenFarm()
@@ -57,8 +40,8 @@ export default function YourWallet({ supportedTokens, alertMessage, setAlertMess
 
   return (
     <Box>
-      <h1 className={`${classes.header} fs-4`}>Your Wallet</h1>
-      <Box className={classes.box}>
+      <h1 className={`${styles.header} fs-4`}>Your Wallet</h1>
+      <Box className={styles.box}>
         <TabContext value={selectedTokenIndex.toString()}>
           <TabList aria-label="stake form tabs" onChange={handleChange}>
             {supportedTokens.map((token, index) => {
@@ -72,7 +55,7 @@ export default function YourWallet({ supportedTokens, alertMessage, setAlertMess
             return (
               <TabPanel value={index.toString()} key={index} className="w-100">
                 {user_address ?
-                  <div className={classes.tabContent} >
+                  <div className={styles.tabContent} >
                     <WalletBalance
                       token={supportedTokens[selectedTokenIndex]}
                       readableTokenBalance={readableTokenBalance}

@@ -1,33 +1,9 @@
 import { Token } from '../Main'
 import { useTokenFarm } from '../../hooks/useTokenFarm'
-import { makeStyles, CircularProgress } from "@material-ui/core"
+import { CircularProgress } from "@mui/material"
 import { networkMap } from "../../helpers"
 import { useEthers } from "@usedapp/core"
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: "block",
-    gridTemplateColumns: "auto auto auto",
-    gap: theme.spacing(1),
-    textAlign: "center",
-    alignItems: "center",
-    margin: '2rem 0.5rem'
-  },
-  tokenImg: {
-    width: "32px",
-    marginBottom: "0.6rem"
-  },
-  amount: {
-    fontWeight: 700
-  }
-}))
-
-// interface BalanceMsgProps {
-//   tokenName: string,
-//   amount?: number | string | false,
-//   stakedAmount?: number | string | false,
-//   tokenImgSrc: string,
-// }
+import styles from './Styles.module.css'
 
 const faucetLinks = (token: string) => {
   const links = {
@@ -44,22 +20,21 @@ export interface WalletBalanceProps {
 }
 
 export default function WalletBalance({ token, readableTokenBalance, readableStakingBalance }: WalletBalanceProps) {
-  const { image, address: token_contract_address, name } = token
+  const { address: token_contract_address } = token
   const { tokenFarmAddress } = useTokenFarm()
   const { chainId } = useEthers()
-  const classes = useStyles()
 
   return (<>
     <div><a href={`https://rinkeby.etherscan.io/address/${tokenFarmAddress}`} target="_blank">Stake Farm Contract</a>
     </div>
     <div><a href={`https://rinkeby.etherscan.io/address/${token_contract_address}`} target="_blank">Token Contract</a>
     </div>
-    <div className={classes.container}>
-      <img className={classes.tokenImg} src={token.image} alt="image logo" />
+    <div className={styles.container}>
+      <img className={styles.tokenImg} src={token.image} alt="image logo" />
       <div>
         <div>
           <span>{`Your un-staked ${token.name} balance:`}</span>&nbsp;
-          <span className={classes.amount}>{readableTokenBalance
+          <span className={styles.amount}>{readableTokenBalance
             ? readableTokenBalance
             : <CircularProgress size={15} />
           }
@@ -67,7 +42,7 @@ export default function WalletBalance({ token, readableTokenBalance, readableSta
         </div>
         <div>
           <span>{`Your staked ${token.name} balance:`}</span>&nbsp;
-          <span className={classes.amount}>{readableStakingBalance
+          <span className={styles.amount}>{readableStakingBalance
             ? readableStakingBalance
             : <CircularProgress size={15} />
           }

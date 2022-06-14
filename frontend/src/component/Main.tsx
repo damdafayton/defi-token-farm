@@ -4,23 +4,16 @@ import { useEffect, useState } from "react"
 import YourWallet from "./yourWallet/YourWallet"
 import { imageMapping, getContractAddress, networkMap } from "../helpers"
 import { useEthers } from "@usedapp/core"
-import { makeStyles } from "@material-ui/core"
 import { AlertType } from '../App'
 import { Alert } from "@material-ui/lab"
+import styles from './Styles.module.css'
+
 
 export type Token = {
   image: string,
   address: string,
   name: string
 }
-
-const useStyles = makeStyles((theme) => ({
-  title: {
-    color: theme.palette.common.white,
-    textAlign: "center",
-    paddingBottom: theme.spacing(4)
-  }
-}))
 
 
 export const Main = ({ alertMessage, setAlertMessage }:
@@ -31,7 +24,7 @@ export const Main = ({ alertMessage, setAlertMessage }:
   const bitUsdTokenAddress = getContractAddress({ own_contract: 'BitUsdToken', chainId })
   const tokenAddressDict = { bitUsdTokenAddress, wethTokenAddress, fauTokenAddress }
 
-  const classes = useStyles()
+  // const classes = useStyles()
   const supportedTokens: Array<Token> = Object.keys(tokenAddressDict).map(address => {
     let name = address.slice(0, address.indexOf('Token')).toLowerCase()
     return {
@@ -58,7 +51,7 @@ export const Main = ({ alertMessage, setAlertMessage }:
 
   return (
     <>
-      <h2 className={classes.title}>TOKEN FARM</h2>
+      <h2 className={styles.title}>TOKEN FARM</h2>
       {pageAlert &&
         <Alert
           className='my-2'
