@@ -53,7 +53,7 @@ export default function WalletBalance({ token, readableTokenBalance, readableSta
     {
       readableTokenBalance === "0" && <>
         <span>{chainId &&
-          `You don\'t have any ${token.name} token on ${networkMap[chainId].toUpperCase()} network.`}
+          `You don't have any ${token.name} token on ${networkMap[chainId].toUpperCase()} network.`}
         </span>
         <p>Visit <a href={faucetLinks(token.name)}> {faucetLinks(token.name)}</a> to get some {token.name} token</p>
       </>

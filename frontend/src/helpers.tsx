@@ -27,15 +27,15 @@ export function getContractAddress(
   // own own_contracts deployed to testnet / get them from build maps
   if (own_contract) {
     let stringChainId = String(chainId)
-    return chainId && networkMapping[stringChainId]
+    return (chainId && networkMapping[stringChainId])
       ? networkMapping[stringChainId][own_contract][0]
       : constants.AddressZero
   } else if (external_contract) {
     // testnet feeds / get them from brownie-config
     const networkName = networkMap[chainId || "dev"]
-    return chainId &&
+    return (chainId &&
       brownieConfig["networks"][networkName] &&
-      brownieConfig["networks"][networkName][external_contract] ||
+      brownieConfig["networks"][networkName][external_contract]) ||
       constants.AddressZero
   }
 }
