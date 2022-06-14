@@ -5,7 +5,7 @@ import YourWallet from "./yourWallet/YourWallet"
 import { imageMapping, getContractAddress, networkMap } from "../helpers"
 import { useEthers } from "@usedapp/core"
 import { AlertType } from '../App'
-import { Alert } from "@material-ui/lab"
+import { Alert } from "@mui/material"
 import styles from './Styles.module.css'
 
 

@@ -3,10 +3,9 @@ import './App.css';
 import { DAppProvider, Kovan, Rinkeby, Mainnet, Config } from "@usedapp/core"
 import { Headers } from './component/Headers'
 import './bootstrap'
-import { Container, Snackbar } from '@material-ui/core'
+import { Container, Snackbar, Alert } from "@mui/material"
 import { Main } from './component/Main'
 import { getDefaultProvider } from 'ethers'
-import { Alert } from "@material-ui/lab"
 
 
 const config: Config = {

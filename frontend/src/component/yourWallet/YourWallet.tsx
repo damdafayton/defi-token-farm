@@ -1,6 +1,6 @@
 import { Token } from '../Main'
-import { Box, Tab, CircularProgress } from '@material-ui/core'
-import { TabContext, TabList, TabPanel } from '@material-ui/lab'
+import { Box, Tab, CircularProgress } from "@mui/material"
+import { TabContext, TabList, TabPanel } from "@mui/lab"
 import React, { useState } from 'react'
 import WalletBalance from './WalletBalance'
 import StakeForm from './StakeForm'
