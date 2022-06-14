@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 const faucetLinks = (token: string) => {
   const links = {
     FAU: "https://erc20faucet.com",
-    BITUSD: window.location.origin + "/faucet",
+    BITUSD: "FAUCET UNDER CONSTRUCTION",
     WETH: "https://app.aave.com"
   }
   return links[token]
